@@ -17,7 +17,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <error.h>
+#include <errno.h>
 #include <ctype.h>
 #include <unistd.h>
 
@@ -1922,7 +1922,14 @@ struct controller controller_list[] =
       { NULL }
     }
   },  
-
+  {
+    "st75256", 		20, 	17, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
+    "", /* is_generate_u8g2_class= */ 1,
+    {
+      { "160x132" },
+      { NULL }
+    },
+  },
  {
     "st75256", 		32, 	20, 	"u8g2_ll_hvline_vertical_top_lsb", "u8x8_cad_011", "", COM_4WSPI|COM_3WSPI|COM_6800|COM_8080,
     "", /* is_generate_u8g2_class= */ 1,
@@ -2760,7 +2767,16 @@ struct interface interface_list[] =
   
 };
 
+void error(int status, int errnum, const char *msg)
+{
+    if (errnum)
+        fprintf(stderr, "%s: %s\n", msg, strerror(errnum));
+    else
+        fprintf(stderr, "%s\n", msg);
 
+    if (status)
+        exit(status);
+}
 /*===========================================*/
 
 #define STR_MAX 1024
