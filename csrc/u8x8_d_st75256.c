@@ -2213,11 +2213,11 @@ uint8_t u8x8_d_st75256_160x132(u8x8_t* u8x8, uint8_t msg, uint8_t arg_int, void*
                 c = ((u8x8_tile_t*)arg_ptr)->cnt;
                 ptr = ((u8x8_tile_t*)arg_ptr)->tile_ptr;
                 /* SendData can not handle more than 255 bytes, treat c > 31 correctly  */
-                // if (c > 31) {
-                //     u8x8_cad_SendData(u8x8, 248, ptr); /* 31*8=248 */
-                //     ptr += 248;
-                //     c -= 31;
-                // } MQ prob not needed here
+                if (c > 31) {
+                    u8x8_cad_SendData(u8x8, 248, ptr); /* 31*8=248 */
+                    ptr += 248;
+                    c -= 31;
+                }
 
                 u8x8_cad_SendData(u8x8, c * 8, ptr);
                 arg_int--;
