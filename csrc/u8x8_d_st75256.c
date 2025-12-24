@@ -2101,32 +2101,31 @@ uint8_t u8x8_d_st75256_128x128(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
 }
 
 
-static const u8x8_display_info_t u8x8_st75256_160x132_display_info = {
-    /* chip_enable_level = */ 0,
-    /* chip_disable_level = */ 1,
 
-    /* post_chip_enable_wait_ns = */ 20,
-    /* pre_chip_disable_wait_ns = */ 20,
-    /* reset_pulse_width_ms = */ 5,
-    /* post_reset_wait_ms = */ 5,   /**/
-    /* sda_setup_time_ns = */ 20,   /* */
-    /* sck_pulse_width_ns = */ 40,  /*  */
-    /* sck_clock_hz = */ 4000000UL, /* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
-    /* spi_mode = */ 0,             /* active high, rising edge */
-    /* i2c_bus_clock_100kHz = */ 4, /* 400KHz */
-    /* data_setup_time_ns = */ 15,
-    /* write_pulse_width_ns = */ 70,
-    /* tile_width = */ 20,
-    /* tile_height = */ 17,
-    /* default_x_offset = */ 0,
-    /* flipmode_x_offset = */ 1, /* x offset is used as y offset in flipmode */
-    /* pixel_width = */ 160,
-    /* pixel_height = */ 132
+static const u8x8_display_info_t u8x8_st75256_160x132_display_info =
+{
+  /* chip_enable_level = */ 0,
+  /* chip_disable_level = */ 1,
+  
+  /* post_chip_enable_wait_ns = */ 20,
+  /* pre_chip_disable_wait_ns = */ 20,
+  /* reset_pulse_width_ms = */ 5, 	
+  /* post_reset_wait_ms = */ 5, 		/**/
+  /* sda_setup_time_ns = */ 20,		/* */
+  /* sck_pulse_width_ns = */ 40,	/*  */
+  /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  1000000000/sck_pulse_width_ns */
+  /* spi_mode = */ 0,		/* active high, rising edge */
+  /* i2c_bus_clock_100kHz = */ 4,	/* 400KHz */
+  /* data_setup_time_ns = */ 15,
+  /* write_pulse_width_ns = */ 70,	
+  /* tile_width = */ 20,
+  /* tile_height = */ 17,
+  /* default_x_offset = */ 0,
+  /* flipmode_x_offset = */ 1,	/* x offset is used as y offset in flipmode */
+  /* pixel_width = */ 160,
+  /* pixel_height = */ 132
 };
 
-// This is from the ST75256 datasheet, but not yet tested
-// there is a similar init sequence from u8g2_Setup_st75256_jlx256160_f
-// commented out lines that differ from the datasheet are marked
 static const uint8_t u8x8_d_st75256_160x132_init_seq[] = {
    U8X8_START_TRANSFER(), /* enable chip, delay is part of the transfer start */
 
@@ -2155,8 +2154,8 @@ static const uint8_t u8x8_d_st75256_160x132_init_seq[] = {
 
     U8X8_C(0x030),           /* select 00 commands */
     // MQ changed page and col ranges
-    U8X8_CAA(0x75, 0x00, 0x10),  // 17 pages for 132 rows
-    U8X8_CAA(0x15, 0x00, 0x9F),  // col range for 160 cols
+    U8X8_CAA(0x75, 0x00, 0x9F), 
+    U8X8_CAA(0x15, 0x00, 0x83),
 
     // U8X8_C( 0x030 ),				/* select 00 commands */
     U8X8_CA(0xbc, 0x00), /* data scan dir */
@@ -2168,7 +2167,7 @@ static const uint8_t u8x8_d_st75256_160x132_init_seq[] = {
     // U8X8_C( 0x030 ),				/* select 00 commands */
     U8X8_C(0xca), /* display control, 3 args follow  */
     U8X8_A(0x00), /* 0x00: no clock division, 0x04: devide clock */
-    U8X8_A(159),  /* 1/160 duty value from the DS example code */
+    U8X8_A(0x83),  /* duty cycle */
     U8X8_A(0x20), /* nline off */
 
     // U8X8_C( 0x030 ),				/* select 00 commands */
